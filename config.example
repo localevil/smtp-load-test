@@ -1,0 +1,10 @@
+smtp_server : 
+smtp_port : 
+imap_server :
+imap_port :
+rcpt_quantity : 5
+metric_delay : 1
+deley_after_stop : 60
+mes_per_second : 1
+log_file : log
+users_file : users
