@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/base64"
 	"fmt"
 	"log"
 	"strconv"
@@ -21,6 +22,7 @@ type configs struct {
 	metricDelay    int
 	deleyAfterStop int
 	mesPerSecond   int
+	file           string
 	logFile        string
 	usersFile      string
 }
@@ -63,7 +65,7 @@ func createConfigs() *configs {
 			}
 		}
 	}()
-
+	var fileSize int
 	ch.parseStringConf("smtp_server", &c.smtpServer, errChan)
 	ch.parseIntConf("smtp_port", &c.smtpPort, errChan)
 	ch.parseStringConf("imap_server", &c.imapServer, errChan)
@@ -72,12 +74,20 @@ func createConfigs() *configs {
 	ch.parseIntConf("metric_delay", &c.metricDelay, errChan)
 	ch.parseIntConf("deley_after_stop", &c.deleyAfterStop, errChan)
 	ch.parseIntConf("mes_per_second", &c.mesPerSecond, errChan)
+	ch.parseIntConf("file_size", &fileSize, errChan)
 	ch.parseStringConf("log_file", &c.logFile, errChan)
 	ch.parseStringConf("users_file", &c.usersFile, errChan)
 
+	if fileSize > 0 {
+		c.file = base64.StdEncoding.EncodeToString(make([]byte, fileSize*1000))
+	}
 	if haveErrors {
 		return nil
 	}
 
 	return &c
+}
+
+func createEmptyFile(size int) {
+
 }
